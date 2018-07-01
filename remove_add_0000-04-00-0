@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Useful website for Linux ABI: 
+# 	https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci
+
+PROG="remove_add_0000-04-00-0"
+#DEV="0000:03:00.0"
+DEV="0000:04:00.0"
+DEV_DIR="$PROG.d"
+
+mkdir -p $DEV_DIR
+lspci -vvv -s $DEV > $DEV_DIR/before.txt
+
+# Remove device
+echo 1 > /sys/bus/pci/devices/$DEV/remove
+
+# Rescan/Add Device
+echo 1 > /sys/bus/pci/rescan
+lspci -vvv -s $DEV > $DEV_DIR/after.txt
+
+# If all goes well, there'll be no diff
+git diff -b --no-index --  $DEV_DIR/before.txt $DEV_DIR/after.txt
