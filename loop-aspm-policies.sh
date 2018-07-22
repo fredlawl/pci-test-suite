@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-PROG="loop_aspm_policies_0000-04-00-0"
-DEV="0000:04:00.0"
-DEV_DIR="$PROG.d"
+BUS_NUM="03"
+DEV="0000:$BUS_NUM:00.0"
+DEV_PRETTY="0000-$BUS_NUM-00-0"
+DEV_DIR="$DEV_PRETTY.d/loop-aspm-policies"
 
 POLICIES=("default" "performance" "powersave" "powersupersave")
 CURRENT=$(cat /sys/module/pcie_aspm/parameters/policy | sed -n 's:.*\[\(.*\)\]:\1:p')

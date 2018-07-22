@@ -3,10 +3,10 @@
 # Useful website for Linux ABI: 
 # 	https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-bus-pci
 
-PROG="remove_add_0000-04-00-0"
-#DEV="0000:03:00.0"
-DEV="0000:04:00.0"
-DEV_DIR="$PROG.d"
+BUS_NUM="03"
+DEV="0000:$BUS_NUM:00.0"
+DEV_PRETTY="0000-$BUS_NUM-00-0"
+DEV_DIR="$DEV_PRETTY.d/add_remove"
 
 mkdir -p $DEV_DIR
 lspci -vvv -s $DEV > $DEV_DIR/before.txt
